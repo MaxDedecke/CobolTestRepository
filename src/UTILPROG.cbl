@@ -1,0 +1,22 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. UTILPROG.
+       AUTHOR. GEMINI-CLI.
+
+       DATA DIVISION.
+       LINKAGE SECTION.
+       01  LK-INPUT-DATA       PIC X(50).
+       01  LK-RETURN-CODE      PIC 9(02).
+
+       PROCEDURE DIVISION USING LK-INPUT-DATA LK-RETURN-CODE.
+
+       MAIN-SECTION SECTION.
+       000-PROCESS-UTILS.
+           DISPLAY "UTILPROG: PROCESSING DATA -> " LK-INPUT-DATA.
+           
+           IF LK-INPUT-DATA = SPACES
+               MOVE 02 TO LK-RETURN-CODE
+           ELSE
+               MOVE 00 TO LK-RETURN-CODE
+           END-IF.
+           
+           GOBACK.

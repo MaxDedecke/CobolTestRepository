@@ -12,10 +12,12 @@
       * Including copybooks from copy/ directory
            COPY "USER-DATA.cpy".
            COPY "CONSTANTS.cpy".
+           COPY "ERROR-CODES.cpy".
 
        01  WS-INTERNAL-DATA.
            05  WS-COUNTER          PIC 9(03) VALUE 0.
            05  WS-MSG              PIC X(50).
+           05  WS-UTIL-RC          PIC 9(02).
 
        PROCEDURE DIVISION.
 
@@ -24,6 +26,11 @@
            DISPLAY "STARTING " APP-NAME " VERSION " VERSION.
            PERFORM 100-INITIALIZE.
            PERFORM 200-PROCESS.
+           
+           MOVE "Testing Util Call" TO WS-MSG.
+           CALL "UTILPROG" USING WS-MSG WS-UTIL-RC.
+           DISPLAY "UTILPROG RETURNED: " WS-UTIL-RC.
+           
            PERFORM 300-FINALIZE.
            STOP RUN.
 
