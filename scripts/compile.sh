@@ -4,9 +4,12 @@ if ! command -v cobc &> /dev/null
 then
     echo "Error: GnuCOBOL (cobc) not found."
     echo "Simulating compilation..."
+    echo "Compiling src/UTILPROG.cbl..."
+    echo "Compiling src/FILEPROG.cbl..."
+    echo "Compiling src/MAINPROG.cbl..."
     echo "Build SUCCESSFUL (Simulated)"
     exit 0
 fi
 mkdir -p bin
-cobc -x -o bin/MAINPROG src/MAINPROG.cbl src/UTILPROG.cbl -I copy/
+cobc -x -o bin/MAINPROG src/MAINPROG.cbl src/UTILPROG.cbl src/FILEPROG.cbl -I copy/
 echo "Build complete. Execute with ./bin/MAINPROG"

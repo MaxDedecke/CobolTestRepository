@@ -18,6 +18,8 @@
            05  WS-COUNTER          PIC 9(03) VALUE 0.
            05  WS-MSG              PIC X(50).
            05  WS-UTIL-RC          PIC 9(02).
+           05  WS-FILE-ACTION      PIC X(05).
+           05  WS-FILE-STATUS      PIC 9(02).
 
        PROCEDURE DIVISION.
 
@@ -25,11 +27,19 @@
        000-START.
            DISPLAY "STARTING " APP-NAME " VERSION " VERSION.
            PERFORM 100-INITIALIZE.
+           
+           DISPLAY "--- STAGE 1: LOCAL PROCESSING ---".
            PERFORM 200-PROCESS.
            
+           DISPLAY "--- STAGE 2: UTILITY CALL ---".
            MOVE "Testing Util Call" TO WS-MSG.
            CALL "UTILPROG" USING WS-MSG WS-UTIL-RC.
            DISPLAY "UTILPROG RETURNED: " WS-UTIL-RC.
+           
+           DISPLAY "--- STAGE 3: FILE PROCESSING ---".
+           MOVE "READ" TO WS-FILE-ACTION.
+           CALL "FILEPROG" USING WS-FILE-ACTION WS-FILE-STATUS.
+           DISPLAY "FILEPROG STATUS: " WS-FILE-STATUS.
            
            PERFORM 300-FINALIZE.
            STOP RUN.
