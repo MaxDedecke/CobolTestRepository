@@ -1,3 +1,8 @@
+      *****************************************************************
+      * PROGRAM: LOGGER
+      * PURPOSE: CENTRAL LOGGING UTILITY
+      * AUTHOR:  GEMINI-CLI
+      *****************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. LOGGER.
        AUTHOR. GEMINI-CLI.
@@ -8,11 +13,17 @@
            05  WS-DATE             PIC 9(08).
            05  WS-TIME             PIC 9(08).
 
+      *****************************************************************
+      * LINKAGE SECTION: RECEIVES LOG DATA STRUCTURE
+      *****************************************************************
        LINKAGE SECTION.
            COPY "LOG-DATA.cpy".
 
        PROCEDURE DIVISION USING LK-LOG-DATA.
 
+      *****************************************************************
+      * 000-LOG: ACCEPTS SYSTEM TIME AND DISPLAYS FORMATTED LOG
+      *****************************************************************
        000-LOG.
            ACCEPT WS-DATE FROM DATE YYYYMMDD.
            ACCEPT WS-TIME FROM TIME.

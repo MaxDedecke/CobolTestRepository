@@ -1,8 +1,16 @@
+      *****************************************************************
+      * PROGRAM: REPORTPROG
+      * PURPOSE: GENERATE A FORMATTED USER REPORT
+      * AUTHOR:  GEMINI-CLI
+      *****************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. REPORTPROG.
        AUTHOR. GEMINI-CLI.
 
        DATA DIVISION.
+      *****************************************************************
+      * WORKING-STORAGE: DEFINES REPORT HEADERS AND DETAIL LINES
+      *****************************************************************
        WORKING-STORAGE SECTION.
        01  WS-REPORT-HEADER.
            05  FILLER              PIC X(10) VALUE "REPORT ID:".
@@ -23,8 +31,12 @@
 
        PROCEDURE DIVISION.
 
+      *****************************************************************
+      * MAIN-LOGIC: ORCHESTRATES THE REPORT GENERATION
+      *****************************************************************
        MAIN-LOGIC SECTION.
        000-START.
+      *    PRINT THE REPORT HEADER
            DISPLAY "----------------------------------------------------".
            MOVE "2026-06-13" TO HDR-DATE.
            DISPLAY WS-REPORT-HEADER.
@@ -32,6 +44,7 @@
            DISPLAY "USER ID    | NAME                           | ROLE".
            DISPLAY "----------------------------------------------------".
            
+      *    SIMULATE PRINTING DATA FOR MULTIPLE USERS
            MOVE "USR001" TO USER-ID.
            MOVE "MAX MUSTERMANN" TO USER-NAME.
            MOVE "ADMIN" TO USER-ROLE.
@@ -42,10 +55,14 @@
            MOVE "USER" TO USER-ROLE.
            PERFORM 100-PRINT-LINE.
            
+      *    FINAL DISPLAY
            DISPLAY "----------------------------------------------------".
            DISPLAY "REPORT FINISHED.".
            GOBACK.
 
+      *****************************************************************
+      * 100-PRINT-LINE: FORMATS AND DISPLAYS A SINGLE RECORD
+      *****************************************************************
        100-PRINT-LINE.
            MOVE USER-ID TO DET-USER-ID.
            MOVE USER-NAME TO DET-USER-NAME.
