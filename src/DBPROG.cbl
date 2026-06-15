@@ -1,0 +1,49 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. DBPROG.
+       AUTHOR. GEMINI-CLI.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+           COPY "LOG-DATA.cpy" REPLACING LK-LOG-DATA BY WS-LOG-DATA.
+           
+       LINKAGE SECTION.
+           01  LK-DB-ACTION        PIC X(10).
+           COPY "DB-RECORD.cpy".
+
+       PROCEDURE DIVISION USING LK-DB-ACTION DB-RECORD.
+
+       MAIN-LOGIC SECTION.
+       000-START.
+           MOVE "INFO " TO WS-LOG-LEVEL.
+           MOVE "DBPROG" TO WS-LOG-SENDER.
+           MOVE "ACTION: " TO WS-LOG-MSG.
+           STRING WS-LOG-MSG LK-DB-ACTION INTO WS-LOG-MSG.
+           CALL "LOGGER" USING WS-LOG-DATA.
+
+           EVALUATE LK-DB-ACTION
+               WHEN "GET"
+                   PERFORM 100-DB-GET
+               WHEN "PUT"
+                   PERFORM 200-DB-PUT
+               WHEN "DELETE"
+                   PERFORM 300-DB-DELETE
+               WHEN OTHER
+                   SET DB-ERROR TO TRUE
+           END-EVALUATE.
+
+           GOBACK.
+
+       100-DB-GET.
+           MOVE "00" TO DB-STATUS.
+           MOVE "SIMULATED DATA FOR " TO DB-DATA-FIELD-1.
+           STRING DB-DATA-FIELD-1 DB-KEY INTO DB-DATA-FIELD-1.
+           MOVE 1234567890 TO DB-DATA-FIELD-2.
+           MOVE 20260615120000 TO DB-TIMESTAMP.
+
+       200-DB-PUT.
+           MOVE "00" TO DB-STATUS.
+           DISPLAY "DB: SAVED RECORD " DB-KEY.
+
+       300-DB-DELETE.
+           MOVE "00" TO DB-STATUS.
+           DISPLAY "DB: DELETED RECORD " DB-KEY.
